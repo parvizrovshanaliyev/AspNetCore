@@ -12,6 +12,9 @@ using RestApi.TweetBook.WebAPI.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using RestApi.TweetBook.WebAPI.Injections;
+using RestApi.TweetBook.WebAPI.Options;
 
 namespace RestApi.TweetBook.WebAPI
 {
@@ -34,6 +37,11 @@ namespace RestApi.TweetBook.WebAPI
                 .AddEntityFrameworkStores<AppDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            #region swagger
+            services.AddSwaggerDocumentation();
+            #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +55,11 @@ namespace RestApi.TweetBook.WebAPI
             {
                 app.UseHsts();
             }
+
+            #region swagger
+            app.UseSwaggerDocumentation(Configuration);
+            #endregion
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -54,10 +67,7 @@ namespace RestApi.TweetBook.WebAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
