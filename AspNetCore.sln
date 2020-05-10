@@ -7,7 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RestApi", "RestApi", "{F2FB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TweetBook", "TweetBook", "{AA0A6671-1E6A-4868-A97F-067D8F519A0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestApi.TweetBook.WebAPI", "RestApi.TweetBook.WebAPI\RestApi.TweetBook.WebAPI.csproj", "{26D5521F-0373-4ACA-87DB-9041BD1FCAC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApi.TweetBook.WebAPI", "RestApi.TweetBook.WebAPI\RestApi.TweetBook.WebAPI.csproj", "{26D5521F-0373-4ACA-87DB-9041BD1FCAC8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication_Authorization", "Authentication_Authorization", "{81312757-C3F0-4ABD-8228-1A7137DE5C00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basics", "Basics", "{44E1AA5C-AC35-4027-80E2-E030F5630650}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic", "Basic\Basic.csproj", "{E481B0A6-C806-4765-ADAE-80F9B45C3AE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +25,10 @@ Global
 		{26D5521F-0373-4ACA-87DB-9041BD1FCAC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26D5521F-0373-4ACA-87DB-9041BD1FCAC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26D5521F-0373-4ACA-87DB-9041BD1FCAC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E481B0A6-C806-4765-ADAE-80F9B45C3AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E481B0A6-C806-4765-ADAE-80F9B45C3AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E481B0A6-C806-4765-ADAE-80F9B45C3AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E481B0A6-C806-4765-ADAE-80F9B45C3AE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -26,6 +36,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AA0A6671-1E6A-4868-A97F-067D8F519A0A} = {F2FB3458-4F2D-4E3E-8339-EB1C386172AB}
 		{26D5521F-0373-4ACA-87DB-9041BD1FCAC8} = {AA0A6671-1E6A-4868-A97F-067D8F519A0A}
+		{44E1AA5C-AC35-4027-80E2-E030F5630650} = {81312757-C3F0-4ABD-8228-1A7137DE5C00}
+		{E481B0A6-C806-4765-ADAE-80F9B45C3AE3} = {44E1AA5C-AC35-4027-80E2-E030F5630650}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {903A496C-2602-48A0-B9C6-64EF5BAA0A81}
