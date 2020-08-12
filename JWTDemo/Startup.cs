@@ -24,7 +24,7 @@ namespace JWTDemo
 
             var appSettingsSection = 
                 Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettings);
+            services.Configure<AppSettings>(appSettingsSection);
 
             //JWT Authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
