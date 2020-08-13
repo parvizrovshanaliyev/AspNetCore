@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace JWTDemo4
+namespace JWT.BaseDemo
 {
     public class Program
     {
@@ -20,10 +20,7 @@ namespace JWTDemo4
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                        .UseUrls("http://localhost:4000");
+                    webBuilder.UseStartup<Startup>();
                 });
-
-
     }
 }

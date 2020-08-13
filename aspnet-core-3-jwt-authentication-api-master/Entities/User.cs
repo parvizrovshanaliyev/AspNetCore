@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace WebApi.Entities
 {
     public class User
@@ -6,6 +8,8 @@ namespace WebApi.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
+
+        [JsonIgnore]
         public string Password { get; set; }
     }
 }
