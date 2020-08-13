@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JWT.BaseDemo.Data;
+﻿using JWT.BaseDemo.Data;
 using JWT.BaseDemo.Helpers;
+using JWT.BaseDemo.Injections;
 using JWT.BaseDemo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace JWT.BaseDemo
 {
@@ -34,7 +28,8 @@ namespace JWT.BaseDemo
             services.AddDbContext<ApplicationDbContext>();
             // configure strongly typed settings object
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
+            // jwt
+            services.AddJWTInjection(Configuration);
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
         }
