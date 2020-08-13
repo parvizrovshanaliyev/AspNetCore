@@ -1,7 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JWT.BaseDemo.Data;
+using JWT.BaseDemo.Helpers;
+using JWT.BaseDemo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,7 +28,15 @@ namespace JWT.BaseDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
+            //Projemizde DbContext olarak ApplicationDbContext kullanacağımız belirtliyoruz.
+            services.AddDbContext<ApplicationDbContext>();
+            // configure strongly typed settings object
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +50,15 @@ namespace JWT.BaseDemo
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //CORS için hangi ayarları kullanacağımızı belirtiyoruz.
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            //Son olarak authentication kullanacağımızı belirtiyoruz.
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
