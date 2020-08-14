@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace RestApi.TweetBook.WebAPI.Controllers
 {
-    public class TestController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class TestController : ControllerBase
     {
-        [HttpGet("api/user")]
+        /// <summary>
+        /// get
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public IActionResult Get()
         {
             return Ok(new {name = "parviz"});

@@ -1,20 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
-using RestApi.TweetBook.WebAPI.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RestApi.TweetBook.WebAPI.Injections;
-using RestApi.TweetBook.WebAPI.Options;
 
 namespace RestApi.TweetBook.WebAPI
 {
@@ -30,45 +21,43 @@ namespace RestApi.TweetBook.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AppDbContext>();
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-
-            #region swagger
+            // swagger
             services.AddSwaggerDocumentation();
-            #endregion
 
+            // infrastructure
+            services.AddInfrastructureInjection(Configuration);
+
+            // webApi
+            services.AddWebApiProjectInjection(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            #region MyRegion
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
-
-            #region swagger
-            app.UseSwaggerDocumentation(Configuration);
-            #endregion
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            // swagger
+            app.UseSwaggerDocumentation(Configuration);
 
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
+            #endregion
+            
+            
         }
     }
 }
