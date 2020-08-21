@@ -10,8 +10,6 @@ using RestApi.TweetBook.WebAPI.Services;
 
 namespace RestApi.TweetBook.WebAPI.Controllers.V1
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
     public class PostsController : ControllerBase
     {
         private readonly IPostService _postService;
@@ -61,6 +59,16 @@ namespace RestApi.TweetBook.WebAPI.Controllers.V1
 
             if (updated)
                 return Ok();
+            return NotFound();
+        }
+
+        [HttpDelete(ApiRoutes.Posts.Delete)]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            var removed = _postService.Delete(id);
+
+            if (removed)
+                return NoContent();
             return NotFound();
         }
     }

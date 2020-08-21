@@ -10,5 +10,6 @@ namespace RestApi.TweetBook.WebAPI.Services
         Post GetById(Guid id);
 
         bool Update(Post post);
+        bool Delete(Guid id);
     }
 }

@@ -11,6 +11,7 @@
             public const string Get = Base+"/posts/{id}";
             public const string Create = Base+"/posts";
             public const string Update = Base+"/posts";
+            public const string Delete = Base+"/posts/{id}";
         }
     }
 }

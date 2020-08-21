@@ -44,6 +44,16 @@ namespace RestApi.TweetBook.WebAPI.Services
             return true;
         }
 
+        public bool Delete(Guid id)
+        {
+            var post = GetById(id);
+
+            if (post is null) return false;
+            _posts.Remove(post);
+
+            return true;
+        }
+
         #endregion
     }
 }
