@@ -1,7 +1,9 @@
-﻿namespace RestApi.TweetBook.WebAPI.Contracts.Requests
+﻿using System;
+
+namespace RestApi.TweetBook.WebAPI.Contracts.Requests
 {
     public class CreatePostRequest
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

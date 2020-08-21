@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RestApi.TweetBook.WebAPI.Services;
 
 namespace RestApi.TweetBook.WebAPI.Injections
 {
@@ -9,6 +10,7 @@ namespace RestApi.TweetBook.WebAPI.Injections
             IConfiguration configuration)
         {
             services.AddControllers();
+            services.AddSingleton<IPostService, PostService>();
 
             return services;
         }

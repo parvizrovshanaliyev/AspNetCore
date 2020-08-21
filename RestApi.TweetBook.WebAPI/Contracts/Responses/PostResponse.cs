@@ -1,7 +1,9 @@
-﻿namespace RestApi.TweetBook.WebAPI.Contracts.Responses
+﻿using System;
+
+namespace RestApi.TweetBook.WebAPI.Contracts.Responses
 {
     public class PostResponse
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }
