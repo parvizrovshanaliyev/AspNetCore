@@ -1,12 +1,9 @@
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RestApi.TweetBook.WebAPI.Injections;
-using RestApi.TweetBook.WebAPI.Installers;
 
 namespace RestApi.TweetBook.WebAPI
 {
@@ -24,20 +21,20 @@ namespace RestApi.TweetBook.WebAPI
         {
             #region iinstaller version injection
 
-            services.InstallServicesInAssembly(Configuration);
+            //services.InstallServicesInAssembly(Configuration);
 
             #endregion
 
             #region extension version injections
 
-            //// swagger
-            //services.AddSwaggerDocumentation();
+            // swagger
+            services.AddSwaggerDocumentation();
 
-            //// infrastructure
-            //services.AddInfrastructureInjection(Configuration);
+            // infrastructure
+            services.AddInfrastructureInjection(Configuration);
 
-            //// webApi
-            //services.AddWebApiProjectInjection(Configuration);
+            // webApi
+            services.AddWebApiProjectInjection(Configuration);
 
             #endregion
         }
