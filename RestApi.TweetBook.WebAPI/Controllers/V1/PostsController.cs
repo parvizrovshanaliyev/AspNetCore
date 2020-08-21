@@ -37,14 +37,31 @@ namespace RestApi.TweetBook.WebAPI.Controllers.V1
         [HttpPost(ApiRoutes.Posts.Create)]
         public IActionResult Create([FromBody] CreatePostRequest request)
         {
-            var post = new Post {Id = request.Id};
-            if (post.Id!=Guid.Empty) post.Id = Guid.NewGuid();
+            var post = new Post { Id = request.Id };
+            if (post.Id != Guid.Empty) post.Id = Guid.NewGuid();
             _postService.GetAll().Add(post);
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var locationUri = $"{baseUrl}/{ApiRoutes.Posts.Get.Replace("{Id}", post.Id.ToString())}";
 
-            var response = new PostResponse {Id = post.Id};
+            var response = new PostResponse { Id = post.Id };
             return Created(locationUri, response);
+        }
+
+
+        [HttpPut(ApiRoutes.Posts.Update)]
+        public IActionResult Update([FromBody] UpdatePostRequest request)
+        {
+            var post = new Post
+            {
+                Id = request.Id,
+                Name = request.Name
+            };
+
+            var updated = _postService.Update(post);
+
+            if (updated)
+                return Ok();
+            return NotFound();
         }
     }
 }
