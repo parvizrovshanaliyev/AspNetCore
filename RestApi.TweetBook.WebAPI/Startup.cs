@@ -1,9 +1,12 @@
+using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RestApi.TweetBook.WebAPI.Injections;
+using RestApi.TweetBook.WebAPI.Installers;
 
 namespace RestApi.TweetBook.WebAPI
 {
@@ -19,14 +22,24 @@ namespace RestApi.TweetBook.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // swagger
-            services.AddSwaggerDocumentation();
+            #region iinstaller version injection
 
-            // infrastructure
-            services.AddInfrastructureInjection(Configuration);
+            services.InstallServicesInAssembly(Configuration);
 
-            // webApi
-            services.AddWebApiProjectInjection(Configuration);
+            #endregion
+
+            #region extension version injections
+
+            //// swagger
+            //services.AddSwaggerDocumentation();
+
+            //// infrastructure
+            //services.AddInfrastructureInjection(Configuration);
+
+            //// webApi
+            //services.AddWebApiProjectInjection(Configuration);
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
