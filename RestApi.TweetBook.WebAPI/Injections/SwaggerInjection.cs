@@ -66,18 +66,6 @@ namespace RestApi.TweetBook.WebAPI.Injections
                     swaggerOptions.Description);
                 c.RoutePrefix = string.Empty;
             });
-            
-            //app.UseSwagger(option =>
-            //{
-            //    option.RouteTemplate = 
-            //        swaggerOptions.JsonRoute;
-            //});
-            //app.UseSwaggerUI(option =>
-            //{
-            //    option.SwaggerEndpoint(
-            //            swaggerOptions.UIEndpoint,
-            //            swaggerOptions.Description);
-            //});
 
             return app;
         }
