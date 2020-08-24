@@ -10,7 +10,7 @@ namespace RestApi.TweetBook.WebAPI.Injections
             IConfiguration configuration)
         {
             services.AddControllers();
-            services.AddSingleton<IPostService, PostService>();
+            services.AddScoped<IPostService, PostService>();
 
             return services;
         }

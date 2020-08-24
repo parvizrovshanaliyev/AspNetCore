@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RestApi.TweetBook.WebAPI.Domain;
 
 namespace RestApi.TweetBook.WebAPI.Data
 {
@@ -12,5 +10,7 @@ namespace RestApi.TweetBook.WebAPI.Data
             : base(options)
         {
         }
+
+        public DbSet<Post> Posts { get; set; }
     }
 }
