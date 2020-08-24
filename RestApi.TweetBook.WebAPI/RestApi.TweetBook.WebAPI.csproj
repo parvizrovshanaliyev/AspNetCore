@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-RestApi.TweetBook.WebAPI-C6A748C6-46ED-49C9-83E3-7F2DA2FCC25C</UserSecretsId>
