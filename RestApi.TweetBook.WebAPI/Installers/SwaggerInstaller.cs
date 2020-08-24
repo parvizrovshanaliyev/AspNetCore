@@ -1,18 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using RestApi.TweetBook.WebAPI.Options;
 
-namespace RestApi.TweetBook.WebAPI.Injections
+namespace RestApi.TweetBook.WebAPI.Installers
 {
-    public static class SwaggerInjection
+    public class SwaggerInstaller : IInstaller
     {
-        public static IServiceCollection AddSwaggerDocumentation(
-            this IServiceCollection services)
+        #region Implementation of IInstaller
+
+        public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -41,33 +40,8 @@ namespace RestApi.TweetBook.WebAPI.Injections
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-
-            return services;
         }
 
-        public static IApplicationBuilder UseSwaggerDocumentation(
-            this IApplicationBuilder app,
-            IConfiguration configuration)
-        {
-            var swaggerOptions = new SwaggerOptions();
-
-            configuration
-                .GetSection(nameof(swaggerOptions))
-                .Bind(swaggerOptions);
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint(swaggerOptions.UIEndpoint,
-                    swaggerOptions.Description);
-                c.RoutePrefix = string.Empty;
-            });
-
-            return app;
-        }
+        #endregion
     }
 }
