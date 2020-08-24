@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RestApi.TweetBook.WebAPI.Options;
 using RestApi.TweetBook.WebAPI.Services;
 
 namespace RestApi.TweetBook.WebAPI.Injections
@@ -11,7 +12,16 @@ namespace RestApi.TweetBook.WebAPI.Injections
         {
             services.AddControllers();
             services.AddScoped<IPostService, PostService>();
+            #region jwt
+            var jwtSettings= new JwtSettings();
+            configuration.Bind(nameof(JwtSettings),jwtSettings);
+            services.AddSingleton(jwtSettings);
 
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = 
+            });
+            #endregion
             return services;
         }
     }
