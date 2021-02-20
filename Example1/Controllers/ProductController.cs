@@ -9,8 +9,17 @@ namespace Example1.Controllers
 {
     public class ProductController : Controller
     {
-
+        public IActionResult Create()
+        {
+            return View();
+        }
         
+        [HttpPost]
+        public IActionResult Create(Product product)
+        {
+            return View();
+        }
+
     }
 
 }
