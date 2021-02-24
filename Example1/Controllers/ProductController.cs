@@ -15,7 +15,7 @@ namespace Example1.Controllers
         }
         
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductMetadataType product)
         {
             return View();
         }
