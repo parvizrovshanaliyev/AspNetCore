@@ -15,8 +15,13 @@ namespace Example1.Controllers
         }
         
         [HttpPost]
-        public IActionResult Create(ProductMetadataType product)
+        public IActionResult Create(Product product)
         {
+            if (!ModelState.IsValid)
+            {
+                var messages = ModelState.ToList();
+
+            }
             return View();
         }
 

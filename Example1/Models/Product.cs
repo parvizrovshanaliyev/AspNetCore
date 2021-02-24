@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Example1.Models
 {
-    [ModelMetadataType(typeof(ProductMetadata))]
+    //[ModelMetadataType(typeof(ProductMetadata))]
     public class Product
     {
         public int Id { get; set; }
