@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 
@@ -11,6 +12,12 @@ namespace SignalRServerExample.Hubs
      */
     public class MyHub:Hub
     {
+
+        #region fields
+
+        private static readonly List<string> Clients = new List<string>();
+
+        #endregion
         /// <summary>
         /// 2.message parametri qebul eden bu method icerisinde Hub-dan gelen
         /// Clients prop vasitesile .All butun istifadecilerde "receiveMessage"
@@ -22,7 +29,7 @@ namespace SignalRServerExample.Hubs
         /// <returns></returns>
         public async Task SendMessageAsync(string message)
         {
-           await  Clients.All.SendAsync("receiveMessage",message);
+           await  base.Clients.All.SendAsync("receiveMessage",message);
         }
 
 
@@ -38,7 +45,10 @@ namespace SignalRServerExample.Hubs
         /// <returns></returns>
         public override async Task OnConnectedAsync()
         {
-            await Clients.All.SendAsync("userJoined", Context.ConnectionId);
+            //What are Connection Events? How to List All Clients?
+            Clients.Add(Context.ConnectionId);
+            await base.Clients.All.SendAsync("clients", Clients);
+            await base.Clients.All.SendAsync("userJoined", Context.ConnectionId);
         }
 
         /// <summary>
@@ -48,7 +58,10 @@ namespace SignalRServerExample.Hubs
         /// <returns></returns>
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            await Clients.All.SendAsync("userLeaved", Context.ConnectionId);
+            //What are Connection Events? How to List All Clients?
+            Clients.Remove(Context.ConnectionId);
+            await base.Clients.All.SendAsync("clients", Clients);
+            await base.Clients.All.SendAsync("userLeaved", Context.ConnectionId);
         }
 
 

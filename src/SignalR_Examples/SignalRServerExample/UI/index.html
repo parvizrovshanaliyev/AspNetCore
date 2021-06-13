@@ -85,6 +85,7 @@
                     .catch(error => console.log(`$Mesaj gonderilen zaman xeta bas verdi :{message}`));
             });
             //#endregion
+
             //#region -server HUB -> to client  
             /*
             - bu hissede serverdeki HUB client-a muraciet edir
@@ -157,6 +158,18 @@
             });
             //#endregion
 
+            //#region What are Connection Events? How to List All Clients?
+            connection.on("clients",
+                clientsData => {
+
+                    let text = "";
+                    $.each(clientsData,
+                        (index, item) => {
+                            text += `<li>${item}</li>`;
+                            $("#clients").html(text);
+                        });
+                });
+            //#endregion
 
         });
     </script>
@@ -166,7 +179,12 @@
     <div id="status" style="display:none;"></div>
     <label for="txtMessage">Message</label><input type="text" id="txtMessage">
     <button id="btnSend">Send</button>
-    <div id="message"></div>
+<div id="message"></div>
+
+<div>
+    <ul id="clients">
+    </ul>
+</div>
 </body>
 
 </html>
