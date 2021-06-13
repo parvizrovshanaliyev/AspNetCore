@@ -1,0 +1,20 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Example1.Models.Product
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script> 
+
+<form asp-action="Create" asp-controller="Product" method="post">
+        <div asp-validation-summary="All"></div>
+        <input type="text" asp-for="Name" placeholder="Name" />
+        <span asp-validation-for="Name"></span>
+        <br />
+        <input type="number" asp-for="Quantity" placeholder="Quantity" />
+        <span asp-validation-for="Quantity"></span>
+        <br />
+        <input type="email" asp-for="Email" placeholder="Email" />
+        <span asp-validation-for="Email"></span>
+        <br />
+        <button>Add</button>
+    </form>

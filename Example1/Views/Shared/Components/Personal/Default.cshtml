@@ -1,0 +1,40 @@
+﻿@model List<Example1.Models.Personal>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 table-responsive">
+            <table class="table table-bordered table-hover table-sortable" id="tab_logic">
+                <thead>
+                <tr >
+                    <th class="text-center">
+                        Name
+                    </th>
+                    <th class="text-center">
+                        Email
+                    </th>
+                    <th class="text-center">
+                        Notes
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr id='addr0' data-id="0" class="hidden">
+                            <td data-name="name">
+                                @p.Name
+                            </td>
+                            <td data-name="mail">
+                                @p.Email
+                            </td>
+                            <td data-name="desc">
+                                @p.Notes
+                            </td>
+                        </tr>
+                    }
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalR Server Example UI</title>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/@microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        
+
+        $(document).ready(() => {
+
+
+            //#region v1 connection
+            /*
+            v1 sadece connection qurulmasi
+            */
+            // const connection = new signalR.HubConnectionBuilder()
+            //     .withUrl("https://localhost:5001/myhub")
+            //     .build();
+            //     connection.start()
+            //#endregion
+
+            //#region v2 connection
+            /*
+            v2 qurulmus connection qoparsa yeniden muraciet edilmesi
+            */
+            // const connection = new signalR.HubConnectionBuilder()
+            //     .withUrl("https://localhost:5001/myhub")
+            //     /*
+            //     bu hissede yeniden connection yaradilir.
+            //     eger connection qirilarsa ferqli 0-2-4-10-30 saniyede bir
+            //     periodlarla 4 defe reconnect yoxlayib dayanacaq
+            //     */
+            //     .withAutomaticReconnect()
+            //     /*
+            //     periodlari custom teyin ede bilerik
+            //     */
+            //     //.withAutomaticReconnect([1000,2000,3000,4000])
+            //     .build();
+            //     connection.start()
+            //#endregion
+
+
+            //#region v3 connection
+            /*
+            v3 umumiyyetle connection-nin qurulmadigi veziyyetlerde
+            asagidaki kimi ozu ozunu cagiran recursive bir async function yazmalidir.
+            eger ki connection olmazsa 2 saniyede bir function elaqe qurmaga cehd edecek,
+            baglanti qurularsa bu function isi dayandirir bundan sonra yeniden baglanti qoparsa 
+            bu sefer reConnect() function ise dusur ve ferqli periodlarla connection qurmagi yoxlayir.
+            */
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:5001/myhub")
+                .withAutomaticReconnect()
+                .build();
+            start();
+
+
+            async function start() {
+                try {
+
+                    await connection.start();
+                } catch (error) {
+
+                    setTimeout(() => start(), 2000);
+                }
+            }
+            //#endregion
+
+            //#region client -> to server HUB
+
+            /*
+            - bu hissede client terefinden serverdeki hub-a muraciet edilir 
+            - client -> to server HUB
+            */
+            $("#btnSend").click(() => {
+                let message = $("#txtMessage").val();
+                connection
+                    .invoke("SendMessageAsync", message)
+                    .catch(error => console.log(`$Mesaj gonderilen zaman xeta bas verdi :{message}`));
+            });
+            //#endregion
+
+            //#region -server HUB -> to client  
+            /*
+            - bu hissede serverdeki HUB client-a muraciet edir
+            -server HUB -> to client  
+            */
+            connection.on("receiveMessage", message => {
+                $("#message").append(message + "<br>")
+
+            });
+            //#endregion
+
+            //#region status functions onreconnecting , onreconnected, onclosed
+
+            /*
+            onreconnecting : Yeniden connection qurulmasina cehd zamani -connection yaradilmazdan evvel ise dusen eventdir.
+            onreconnected : Yeniden baglanti quruldugu an ise  function-dir.
+            onclosed : Yeniden connection qurulmasi ugursuz oldugu zaman ise dusen function dir
+            */
+            const status = $("#status");
+
+            function fadeIn_fadeOut() {
+                status.fadeIn(2000, () => {
+                    setTimeout(() => {
+                        status.fadeOut(2000);
+                    })
+                });
+            }
+            /*
+            yeniden baglanti qurulmasina cehd zamani xeta bas vererse error ile o xetani oxuyuruq
+            */
+            connection.onreconnecting(error => {
+
+                status.css("background-color", "blue");
+                status.css("color", "white");
+                status.html("Connecting ...");
+                fadeIn_fadeOut(status);
+                
+            });
+            /*
+            baglanti zamani clientlar bilavasite baglandigi hub onlara connectionId 
+            */
+            connection.onreconnected(connectionId => {
+                status.css("background-color", "green");
+                status.css("color", "white");
+                status.html("Connected ...");
+                fadeIn_fadeOut();
+            });
+            connection.onclose(connectionId => {
+                status.css("background-color", "red");
+                status.css("color", "white");
+                status.html("Connection could not be established");
+                fadeIn_fadeOut();
+            });
+            //#endregion
+
+            //#region -server HUB -> to client  Server terefinde baglanti emeliyyatlari OnConnectedAsync, OndisconnectedAsync
+            /*
+             Hub qosulan baglantilarin ve hub dan ayrilan baglantilarin uzerinde emeliyyatlarin yerine yetirilmesi
+            */
+            connection.on("userJoined", connectionId => {
+                status.css("background-color", "green");
+                status.html(`${connectionId} : Connected ...`);
+                fadeIn_fadeOut();
+
+            });
+            connection.on("userLeaved", connectionId => {
+                status.css("background-color", "red");
+                status.html(`${connectionId} : Connection could not be established ...`);
+                fadeIn_fadeOut();
+            });
+            //#endregion
+
+            //#region What are Connection Events? How to List All Clients?
+            connection.on("clients",
+                clientsData => {
+
+                    let text = "";
+                    $.each(clientsData,
+                        (index, item) => {
+                            text += `<li>${item}</li>`;
+                            $("#clients").html(text);
+                        });
+                });
+            //#endregion
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="status" style="display:none;"></div>
+    <label for="txtMessage">Message</label><input type="text" id="txtMessage">
+    <button id="btnSend">Send</button>
+<div id="message"></div>
+
+<div>
+    <ul id="clients">
+    </ul>
+</div>
+</body>
+
+</html>
