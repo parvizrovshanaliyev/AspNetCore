@@ -26,9 +26,10 @@ namespace SignalRServerExample
                 policy.AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
-                    .SetIsOriginAllowed(origin=>true);
-
+                    .SetIsOriginAllowed(origin => true);
             }));
+            
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +39,7 @@ namespace SignalRServerExample
             {
                 app.UseDeveloperExceptionPage();
             }
+
             /* 5. requestleri qebul etmek ucun addCors politikasini elave etmeliyik
              *   app.UseRouting();-den once .UseCors() middleware cagrilmalidir
             */

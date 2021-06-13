@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 
@@ -10,13 +8,6 @@ namespace SignalRServerExample.Hubs
      * 1.appde oncelikle sonunda HUB deye adlandirilan class
      * yaradilir ve HUB classindan inheritance alir bununla
      * TCP protokolundan istifade edeceyik.
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      */
     public class MyHub:Hub
     {
@@ -33,5 +24,34 @@ namespace SignalRServerExample.Hubs
         {
            await  Clients.All.SendAsync("receiveMessage",message);
         }
+
+
+        /*
+         * Context.ConnectinId Hub -a qosulan clientlari bir birinden ayirmaq ucun istifade
+         * edilen sistem terefinden verilmis unique id-dir.
+         */
+        #region Overrides of Hub
+
+        /// <summary>
+        /// Baglanti zamani ise dusecek
+        /// </summary>
+        /// <returns></returns>
+        public override async Task OnConnectedAsync()
+        {
+            await Clients.All.SendAsync("userJoined", Context.ConnectionId);
+        }
+
+        /// <summary>
+        /// Baglanti qopan zaman ise dusecek
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            await Clients.All.SendAsync("userLeaved", Context.ConnectionId);
+        }
+
+
+        #endregion
     }
 }
