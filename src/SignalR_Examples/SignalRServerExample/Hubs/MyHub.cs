@@ -2,21 +2,32 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using SignalRServerExample.Interfaces;
 
 namespace SignalRServerExample.Hubs
 {
+   
     /*
      * 1.appde oncelikle sonunda HUB deye adlandirilan class
      * yaradilir ve HUB classindan inheritance alir bununla
      * TCP protokolundan istifade edeceyik.
      */
-    public class MyHub:Hub
+
+
+    public class MyHub: Hub<IMessageClient> // v1-Hub sadece Hubdan inheritance alinir
     {
+
 
         #region fields
 
-        private static readonly List<string> Clients = new List<string>();
+        private static readonly List<string> clientsDataList = new List<string>();
 
+        private readonly IHubContext<MyHub> _hubContext;
+
+        public MyHub(IHubContext<MyHub> hubContext)
+        {
+            _hubContext = hubContext;
+        }
         #endregion
         /// <summary>
         /// 2.message parametri qebul eden bu method icerisinde Hub-dan gelen
@@ -29,7 +40,11 @@ namespace SignalRServerExample.Hubs
         /// <returns></returns>
         public async Task SendMessageAsync(string message)
         {
-           await  base.Clients.All.SendAsync("receiveMessage",message);
+            //await _hubContext.Clients.All.SendAsync("receiveMessage", message);
+
+            // strongly Typed
+            await base.Clients.All.ReceiveMessage( message);
+           
         }
 
 
@@ -46,9 +61,18 @@ namespace SignalRServerExample.Hubs
         public override async Task OnConnectedAsync()
         {
             //What are Connection Events? How to List All Clients?
-            Clients.Add(Context.ConnectionId);
-            await base.Clients.All.SendAsync("clients", Clients);
-            await base.Clients.All.SendAsync("userJoined", Context.ConnectionId);
+            clientsDataList.Add(Context.ConnectionId);
+            /*
+             * v1
+             */
+            //await base.Clients.All.SendAsync("clients", Clients);
+            //await base.Clients.All.SendAsync("userJoined", Context.ConnectionId);
+
+            /*
+             * v2 strongly typed hubs
+             */
+            await base.Clients.All.Clients(clientsDataList);
+            await base.Clients.All.UserJoined(Context.ConnectionId);
         }
 
         /// <summary>
@@ -59,12 +83,23 @@ namespace SignalRServerExample.Hubs
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             //What are Connection Events? How to List All Clients?
-            Clients.Remove(Context.ConnectionId);
-            await base.Clients.All.SendAsync("clients", Clients);
-            await base.Clients.All.SendAsync("userLeaved", Context.ConnectionId);
+            clientsDataList.Remove(Context.ConnectionId);
+            /*
+             * v1
+             */
+            //await base.Clients.All.SendAsync("clients", Clients);
+            //await base.Clients.All.SendAsync("userLeaved", Context.ConnectionId);
+            /*
+             * v2 strongly typed hubs
+             */
+            await base.Clients.All.Clients(clientsDataList);
+            await base.Clients.All.UserLeaved(Context.ConnectionId);
+
         }
-
-
+        
         #endregion
+
+
+       
     }
 }

@@ -22,6 +22,7 @@ namespace SignalRServerExample
             #region IHunContext DI
 
             services.AddTransient<MyBusiness>();
+            services.AddTransient<MyHub>();
 
             #endregion
 

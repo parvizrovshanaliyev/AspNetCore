@@ -43,8 +43,7 @@
             //     .build();
             //     connection.start()
             //#endregion
-
-
+            
             //#region v3 connection
             /*
             v3 umumiyyetle connection-nin qurulmadigi veziyyetlerde
@@ -92,7 +91,7 @@
             -server HUB -> to client  
             */
             connection.on("receiveMessage", message => {
-                $("#message").append(message + "<br>")
+                $("#message").append(message + "<br>");
 
             });
             //#endregion
@@ -110,7 +109,7 @@
                 status.fadeIn(2000, () => {
                     setTimeout(() => {
                         status.fadeOut(2000);
-                    })
+                    });
                 });
             }
             /*
