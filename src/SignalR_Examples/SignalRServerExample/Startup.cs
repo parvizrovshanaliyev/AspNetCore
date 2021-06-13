@@ -22,7 +22,7 @@ namespace SignalRServerExample
             #region IHunContext DI
 
             services.AddTransient<MyBusiness>();
-            services.AddTransient<MyHub>();
+            //services.AddTransient<MyHub>();
 
             #endregion
 
@@ -61,6 +61,9 @@ namespace SignalRServerExample
             {
                 // 4. https://localhost:5001
                 endpoints.MapHub<MyHub>("/myhub");
+
+
+                endpoints.MapHub<MessageHub>("/messagehub");
 
                 endpoints.MapControllers();
             });

@@ -98,8 +98,7 @@ namespace SignalRServerExample.Hubs
         }
         
         #endregion
-
-
+        
        
     }
 }
