@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SignalRServerExample.Business;
 using SignalRServerExample.Hubs;
 
 namespace SignalRServerExample
@@ -17,6 +18,14 @@ namespace SignalRServerExample
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            #region IHunContext DI
+
+            services.AddTransient<MyBusiness>();
+
+            #endregion
+
+
             //3. signal module elave edirik
             services.AddSignalR();
 
@@ -28,8 +37,9 @@ namespace SignalRServerExample
                     .AllowCredentials()
                     .SetIsOriginAllowed(origin => true);
             }));
-            
-            
+
+            services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +60,8 @@ namespace SignalRServerExample
             {
                 // 4. https://localhost:5001
                 endpoints.MapHub<MyHub>("/myhub");
+
+                endpoints.MapControllers();
             });
         }
     }
