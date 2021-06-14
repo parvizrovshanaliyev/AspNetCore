@@ -108,12 +108,18 @@ namespace SignalRServerExample.Hubs
         /*
          * Group daxilinde qeyd olunan clientlar istisna olmaqla diger clientlarla elaqe yaradilir.
          */
-        
+
+        #endregion
+
+        #region Groups
+        /*
+         * birden cox group-daki clientlarla elaqe yaradir.
+         */
 
         #endregion
         #region OthersInGroup
         /*
-         *
+         * caller client istisna olmaqla groupdaki diger clientlarla elaqe yaradir
          */
 
         #endregion
