@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,10 +8,7 @@
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/@microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script>
-        
-
         $(document).ready(() => {
-
 
             //#region v1 connection
             /*
@@ -44,18 +40,18 @@
             //     connection.start()
             //#endregion
 
-
             //#region v3 connection
             /*
             v3 umumiyyetle connection-nin qurulmadigi veziyyetlerde
             asagidaki kimi ozu ozunu cagiran recursive bir async function yazmalidir.
             eger ki connection olmazsa 2 saniyede bir function elaqe qurmaga cehd edecek,
-            baglanti qurularsa bu function isi dayandirir bundan sonra yeniden baglanti qoparsa 
+            baglanti qurularsa bu function isi dayandirir bundan sonra yeniden baglanti qoparsa
             bu sefer reConnect() function ise dusur ve ferqli periodlarla connection qurmagi yoxlayir.
             */
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://localhost:5001/myhub")
+                //.withUrl("https://localhost:5001/myhub")
+                .withUrl("https://localhost:5001/messagehub") // clients example
                 .withAutomaticReconnect()
                 .build();
             start();
@@ -75,7 +71,7 @@
             //#region client -> to server HUB
 
             /*
-            - bu hissede client terefinden serverdeki hub-a muraciet edilir 
+            - bu hissede client terefinden serverdeki hub-a muraciet edilir
             - client -> to server HUB
             */
             $("#btnSend").click(() => {
@@ -86,13 +82,13 @@
             });
             //#endregion
 
-            //#region -server HUB -> to client  
+            //#region -server HUB -> to client
             /*
             - bu hissede serverdeki HUB client-a muraciet edir
-            -server HUB -> to client  
+            -server HUB -> to client
             */
             connection.on("receiveMessage", message => {
-                $("#message").append(message + "<br>")
+                $("#message").append(message + "<br>");
 
             });
             //#endregion
@@ -110,7 +106,7 @@
                 status.fadeIn(2000, () => {
                     setTimeout(() => {
                         status.fadeOut(2000);
-                    })
+                    });
                 });
             }
             /*
@@ -122,10 +118,10 @@
                 status.css("color", "white");
                 status.html("Connecting ...");
                 fadeIn_fadeOut(status);
-                
+
             });
             /*
-            baglanti zamani clientlar bilavasite baglandigi hub onlara connectionId 
+            baglanti zamani clientlar bilavasite baglandigi hub onlara connectionId
             */
             connection.onreconnected(connectionId => {
                 status.css("background-color", "green");
@@ -171,20 +167,133 @@
                 });
             //#endregion
 
+            //#region   Hub-la elaqe quran clientin connection id-sinin gosterilmesi
+            /*
+             * Hub-la elaqe quran clientin connection id-sinin gosterilmesi
+             *
+             *
+             */
+            let connectionID = "";
+            connection.on("GetConnectionId",
+                (connectionId) => {
+                    connectionID = connectionId;
+                    $("#connectionId").html(`ConnectionId:${connectionId}`);
+                });
+            //#endregion
+
+
+            //#region client -> to server HUB ---- AllExcept
+
+            /*
+            - bu hissede client terefinden serverdeki hub-a muraciet edilir
+            - client -> to server HUB
+            */
+            $("#btnSend1").click(() => {
+                let connectionIds = $("#connectionIds").val().split(",");
+                let message = $("#txtMessage1").val();
+                connection
+                    .invoke("SendMessageAsync", message, connectionIds)
+                    .catch(error => console.log(`$Mesaj gonderilen zaman xeta bas verdi :${message}`));
+            });
+
+            connection.on("receiveMessage", message => {
+                $("#message1").append(message + "<br>");
+
+            });
+            //#endregion
+            //#region client -> to server HUB ---- Groups
+
+            /*
+            - bu hissede client terefinden serverdeki hub-a muraciet edilir
+            - client -> to server HUB
+            */
+            let groupName = "";
+            /*
+             * Ilk once istifadecinin secdiyi group hub yonlendirilir varsa hemin groupa subscribe
+             * olur yoxdursa hemin group yaradilir subscribe olur
+             */
+            $("#btnJoinGroup").click(() => {
+                groupName = $("input[name=group]:checked").val();
+
+                connection
+                    .invoke("AddGroup", connectionID, groupName)
+                    .catch(error => console.log(`xeta bas verdi :${error}`));;
+            });
+            /*
+             * Send btn clik olunan zaman mesaj radio inputda secilen grupa gonderilecek
+             */
+            $("#btnSend2").click(() => {
+                let connectionIds = $("#connectionIds2").val().split(",");
+                let message = $("#txtMessage2").val();
+                connection
+                    .invoke("SendMessageToGroupAsync", groupName, message )
+                    .catch(error => console.log(`$Mesaj gonderilen zaman xeta bas verdi :${message}`));
+            });
+            // server to client
+            connection.on("receiveMessage", message => {
+                $("#message2").append(message + "<br>");
+
+            });
+            //#endregion
         });
     </script>
 </head>
-
 <body>
-    <div id="status" style="display:none;"></div>
+
+
+
+
+    <!--#region   -->
+    <div id="connectionId" style="background-color: black; color: red;"></div>
+    <div id="status" style="display: none;"></div>
     <label for="txtMessage">Message</label><input type="text" id="txtMessage">
     <button id="btnSend">Send</button>
-<div id="message"></div>
+    <div id="message"></div>
 
-<div>
-    <ul id="clients">
-    </ul>
-</div>
+
+    <div>
+        <ul id="clients">
+        </ul>
+    </div>
+    <!--#endregion -->
+    <!--  -->
+    <!--  -->
+    <!--  -->
+    <!--#region AllExcept gonderilmeyecek idler ucun  -->
+    <br />
+    <h1>All except</h1>
+    <div> <label for="txtMessage1">Message</label><input type="text" id="txtMessage1"></div>
+    <div style="display: flex">
+        <textarea id="connectionIds2" cols="30" rows="10"></textarea>
+        <button id="btnSend1" style="height: 40px;">
+            Send Message all except
+        </button>
+    </div>
+    <div id="message1"></div>
+    <!--#endregion -->
+    <!--  -->
+    <!--  -->
+    <!--  -->
+    <!--#region   -->
+    <br />
+    <h1>Groups</h1>
+    <div style="display: flex;">
+        <input type="radio" name="group" value="A" />A
+        <input type="radio" name="group" value="B" />B
+        <input type="radio" name="group" value="C" />C
+        <button id="btnJoinGroup" style="margin-left: 30px;">Join Group</button>
+    </div>
+    <br />
+    <br />
+    <div style="display: flex;">
+        <label for="txtMessage2">Message</label><input type="text" id="txtMessage2">
+        <button id="btnSend2" style="height: 40px;">
+            Send Message Group
+        </button>
+    </div>
+    <div id="message2"></div>
+    <!--#endregion -->
+    <!--#region   -->
+    <!--#endregion -->
 </body>
-
 </html>
