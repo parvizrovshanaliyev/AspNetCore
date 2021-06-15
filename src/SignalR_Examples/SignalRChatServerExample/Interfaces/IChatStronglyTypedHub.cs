@@ -10,6 +10,7 @@ namespace SignalRChatServerExample.Interfaces
     {
         Task ClientJoinedAsync(string nickName);
         Task SendClientsDataAsync(List<Client> clients);
+        Task ReceiveMessageAsync(string clientNickName, string message);
 
     }
 }
