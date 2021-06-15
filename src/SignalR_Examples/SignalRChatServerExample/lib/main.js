@@ -1,42 +1,4 @@
 ﻿$(document).ready(() => {
-    //#region signalR
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:5001/chathub")
-        .withAutomaticReconnect()
-        .build();
-    start();
-    async function start() {
-        try {
-
-            await connection.start();
-        } catch (error) {
-
-            setTimeout(() => start(), 2000);
-        }
-    }
-    
-    /*
-      Client To server
-     */
-    $("#btnLogin").click(() => {
-        let nickName = $("#txtNickName");
-        connection.invoke("GetNickName",nickName)
-            .catch(error=>console.log(error));
-    });
-     
-    /*
-      Server To client
-     */
-    connection.on("ClientJoined",nickname=>{
-        $("#clientStatusMessages").html(`${nickname}: joined` )
-           $("#clientStatusMessages").fadeIn(2000,()=>{
-                setTimeout(()=> {
-                    $("#clientStatusMessages").fadeOut(2000);
-                },2000)
-           })  ;
-    });
-    //#endregion signalR
-
     $(".disabled").attr("disabled", "disabled");
 
 
@@ -52,7 +14,49 @@
         x.find("h5")[0].innerHTML = "";
         $(".message").append(x);
     });
+    //#region signalR
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:5001/chathub")
+        .build();
+    connection.start();
+
+    /*
+      Client To server
+     */
+    $("#btnLogin").click(() => {
+        let nickName = $("#txtNickName").val();
+
+        connection
+            .invoke("GetNickNameAsync", nickName)
+            .catch(error => console.log(`xeta bas verdi :${error}`));
+        $(".disabled").removeAttr("disabled");
+
+    });
+
+    /*
+      Server To client
+     */
+    connection.on("ClientJoinedAsync", nickname => {
+        $("#clientStatusMessages").html(`${nickname}: joined`);
+        $("#clientStatusMessages").fadeIn(2000, () => {
+            setTimeout(() => {
+                $("#clientStatusMessages").fadeOut(2000);
+            },
+                2000);
+        });
+    });
+    connection.on("SendClientsDataAsync", clients => {
 
 
-   
+        $('#clients').html("");
+        $.each(clients,
+            (index, item) => {
+                $('#clients').append(`<a class='list-group-item list-group-item-action users'>${item.nickName}</a>`);
+            });
+
+    });
+    //#endregion signalR
+
+
+
 })

@@ -8,21 +8,25 @@ namespace SignalRChatServerExample.Hubs
 {
     public class ChatHub : Hub<IChatStronglyTypedHub>
     {
-        public async Task GetNickName(string nickName)
+        /// <summary>
+        /// Login olan client-in nickName-nin diger userlerde gorunmesinin temin edilmesi
+        /// </summary>
+        /// <param name="nickName"></param>
+        /// <returns></returns>
+        public async Task GetNickNameAsync(string nickName)
         {
-            Client client = new Client
+            InMemoryDB.Add(new Client
             {
                 ConnectionId = Context.ConnectionId,
                 NickName = nickName
-            };
-            InMemoryDB.Clients.Add(client);
+            });
 
-            /*
-             * Join olan client-dan basqa butun joine olanlarin nickNamenin gosterilmesi
-             *
-             */
+           
+            // Join olan client istisna olmaqla digerlerine Join olanin NickName-nin gosterilmesi
+            await Clients.Others.ClientJoinedAsync(nickName);
 
-            await Clients.Others.ClientJoined(nickName);
+            // Butun clientlara cari client datalarinin gonderilmesi
+            await Clients.All.SendClientsDataAsync(InMemoryDB.GetAll());
         }
     }
 }

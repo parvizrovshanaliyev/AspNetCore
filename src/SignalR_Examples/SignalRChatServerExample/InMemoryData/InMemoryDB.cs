@@ -3,10 +3,24 @@ using SignalRChatServerExample.Models;
 
 namespace SignalRChatServerExample.InMemoryData
 {
-    public class InMemoryDB
+    public static class InMemoryDB
     {
-        public static List<Client> Clients => new List<Client>();
+        private static readonly List<Client>  _clients;
 
 
+        static InMemoryDB()
+        {
+            _clients = new List<Client>();
+        }
+
+        public static List<Client> GetAll()
+        {
+            return _clients;
+        }
+
+        public static void Add(Client client)
+        {
+            _clients.Add(client);
+        }
     }
 }
