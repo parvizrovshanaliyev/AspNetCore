@@ -2,7 +2,7 @@
     $(".disabled").attr("disabled", "disabled");
 
 
-    $('.list-group-item').click(function (e) {
+    $("body").on("click",".list-group-item",function (e) {
         e.preventDefault();
         $(this).addClass('active').siblings().removeClass('active');
     });
