@@ -7,5 +7,6 @@ namespace SignalRChatServerExample.Interfaces
 {
     public interface IChatStronglyTypedHub
     {
+        Task ClientJoined(string nickName);
     }
 }
