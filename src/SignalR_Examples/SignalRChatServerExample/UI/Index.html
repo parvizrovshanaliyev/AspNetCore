@@ -20,12 +20,11 @@
                 <!-- left -->
                 <div class="col-md-3">
                     <!-- room -->
-                    <input type="text" class="form-control form-control-lg disabled" placeholder="Room Name" value="" />
-                    <button type="button" class="btn btn-info disabled rightButton">Create Room</button>
-                    <select size="5" class="form-select disabled" multiple="multiple">
-                        <option selected="selected" value="-1">Rooms</option>
+                    <input id="txtGroupName" type="text" class="form-control form-control-lg disabled" placeholder="Room Name" value="" />
+                    <button id="btnCreateGroup" type="button" class="btn btn-info disabled rightButton">Create Group</button>
+                    <select id="groups" size="5" class="form-select disabled" multiple="multiple">
                     </select>
-                    <button type="button" class="btn btn-primary disabled rightButton">Enter Selected Rooms</button>
+                    <button id="btnEnterSelectedGroup" type="button" class="btn btn-primary disabled rightButton">Enter Selected Groups</button>
                     <!-- room -->
                     <br /><br /><br />
                     <!-- Clients -->
@@ -44,6 +43,7 @@
                     <!-- messaging -->
                     <textarea id="textAreaMessage" class="form-control" style="margin-top: 5px;" placeholder="Enter the message to be forwarded here" rows="3"></textarea>
                     <button id="btnSend" type="button" class="btn btn-light rightButton">Send</button>
+                    <button id="btnSendGroup" type="button" class="btn btn-dark rightButton">Send group</button>
                     <br /><br /><br />
                     <div class="list-group messageBox">
                         <a href="" class="list-group-item list-group-item-action message" aria-current="true">

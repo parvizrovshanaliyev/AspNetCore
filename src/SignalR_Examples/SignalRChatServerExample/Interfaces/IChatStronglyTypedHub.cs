@@ -9,8 +9,8 @@ namespace SignalRChatServerExample.Interfaces
     public interface IChatStronglyTypedHub
     {
         Task ClientJoinedAsync(string nickName);
-        Task SendClientsDataAsync(List<Client> clients);
+        Task ClientsDataAsync(List<Client> clients);
         Task ReceiveMessageAsync(string clientNickName, string message);
-
+        Task GroupsAsync(List<Group> groups);
     }
 }

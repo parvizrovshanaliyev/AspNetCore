@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SignalRChatServerExample.InMemoryData;
 using SignalRChatServerExample.Interfaces;
@@ -11,6 +14,7 @@ namespace SignalRChatServerExample.Hubs
         #region fields
 
         private const string All = "All";
+        private const string GroupName = "-1";
 
 
         #endregion
@@ -21,7 +25,7 @@ namespace SignalRChatServerExample.Hubs
         /// <returns></returns>
         public async Task GetNickNameAsync(string nickName)
         {
-            InMemoryDB.Add(new Client
+            InMemoryDB.AddClient(new Client
             {
                 ConnectionId = Context.ConnectionId,
                 NickName = nickName
@@ -32,7 +36,7 @@ namespace SignalRChatServerExample.Hubs
             await Clients.Others.ClientJoinedAsync(nickName);
 
             // Butun clientlara cari client datalarinin gonderilmesi
-            await Clients.All.SendClientsDataAsync(InMemoryDB.GetAll());
+            await Clients.All.ClientsDataAsync(InMemoryDB.GetAllClient());
         }
 
         /// <summary>
@@ -56,7 +60,50 @@ namespace SignalRChatServerExample.Hubs
                 await Clients.Client(receiverClient.ConnectionId).ReceiveMessageAsync(senderClient.NickName, message);
             }
 
+        }
+        public async Task SendMessageToGroupAsync(string message, string groupName)
+        {
+            groupName = groupName.Trim();
 
+            var senderClient = InMemoryDB.GetClientByConnectionId(Context.ConnectionId);
+
+            await Clients.Groups(groupName).ReceiveMessageAsync(senderClient.NickName, message);
+
+        }
+        public async Task AddGroupAsync(string groupName)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+            InMemoryDB.AddGroup(groupName, Context.ConnectionId);
+
+            await Clients.All.GroupsAsync(InMemoryDB.GetAllGroups());
+        }
+
+
+        public async Task AddClientToGroupsAsync(IEnumerable<string> groupNames)
+        {
+            Client client = InMemoryDB.GetClientByConnectionId(Context.ConnectionId);
+
+            foreach (var groupName in groupNames)
+            {
+                Group group = InMemoryDB.GetGroup(groupName);
+
+                var result = group.Clients.Any(i => i.ConnectionId == Context.ConnectionId);
+                if (result) continue;
+                @group.Clients.Add(client);
+
+                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            }
+        }
+
+        public async Task GetClientsToGroupAsync(string groupName)
+        {
+            Group group = InMemoryDB.GetGroup(groupName);
+            
+            await Clients.Caller.ClientsDataAsync(
+                groupName == GroupName
+                    ? InMemoryDB.GetAllClient()
+                    : group.Clients);
         }
     }
 }
