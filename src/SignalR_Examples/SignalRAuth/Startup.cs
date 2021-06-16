@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SignalRAuth.Data;
+using SignalRAuth.Hubs;
 
 namespace SignalRAuth
 {
@@ -55,6 +56,9 @@ namespace SignalRAuth
 
 
             #endregion
+            #region signalR
+            services.AddSignalR();
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +80,12 @@ namespace SignalRAuth
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");
+                });
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHub<LoginHub>("/login");
+                    endpoints.MapHub<MessageHub>("/message");
                 });
             });
         }
