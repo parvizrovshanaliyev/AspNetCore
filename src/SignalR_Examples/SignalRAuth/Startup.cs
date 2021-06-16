@@ -36,6 +36,17 @@ namespace SignalRAuth
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             #endregion
 
+            #region cors
+
+            services.AddCors(options => options.AddDefaultPolicy(policy =>
+            {
+                policy.AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(origin => true);
+            }));
+
+            #endregion
             #region jwt config
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
