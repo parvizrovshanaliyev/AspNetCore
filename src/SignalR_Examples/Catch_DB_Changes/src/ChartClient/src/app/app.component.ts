@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HighchartsChartComponent } from 'highcharts-angular';
+import * as HighCharts  from 'highcharts-angular';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +7,13 @@ import { HighchartsChartComponent } from 'highcharts-angular';
 })
 export class AppComponent {
   title = 'ChartClient';
+  HighCharts : typeof  HighCharts= HighCharts;
+  chartptions:  HighCharts.Options={
+    title:{
+      text:"Basliq",
+    },
+    subtitle:{
+      text:"Basliq",
+    }
+  }
 }

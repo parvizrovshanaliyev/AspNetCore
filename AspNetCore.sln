@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Application", "src\Do
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChatServerExample", "src\SignalR_Examples\SignalRChatServerExample\SignalRChatServerExample.csproj", "{D6F31DC8-077D-4B49-96BA-7E50B34DFF31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRAuth", "src\SignalR_Examples\SignalRAuth\SignalRAuth.csproj", "{76437D63-86B2-49AE-918D-9A1A5FE3AB48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{D6F31DC8-077D-4B49-96BA-7E50B34DFF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6F31DC8-077D-4B49-96BA-7E50B34DFF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6F31DC8-077D-4B49-96BA-7E50B34DFF31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76437D63-86B2-49AE-918D-9A1A5FE3AB48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76437D63-86B2-49AE-918D-9A1A5FE3AB48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76437D63-86B2-49AE-918D-9A1A5FE3AB48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76437D63-86B2-49AE-918D-9A1A5FE3AB48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,6 +195,7 @@ Global
 		{1C927123-27EE-44B0-8C0A-CFE7C07B4597} = {54DF1C5B-644A-45FD-B5F8-1E1D01F9B699}
 		{86F4D7A9-13E1-4FC0-9487-D82870A4838D} = {54DF1C5B-644A-45FD-B5F8-1E1D01F9B699}
 		{D6F31DC8-077D-4B49-96BA-7E50B34DFF31} = {5E94C5EF-D1AD-4DE8-A219-B20C0FB65F05}
+		{76437D63-86B2-49AE-918D-9A1A5FE3AB48} = {5E94C5EF-D1AD-4DE8-A219-B20C0FB65F05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {903A496C-2602-48A0-B9C6-64EF5BAA0A81}
