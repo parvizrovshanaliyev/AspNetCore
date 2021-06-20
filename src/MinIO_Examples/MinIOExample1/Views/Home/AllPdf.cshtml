@@ -1,0 +1,11 @@
+﻿
+
+@model Dictionary<string, string>
+<h3>Yüklü Pdf listesi</h3>
+<br />
+@foreach (var item in Model)
+{
+    <a href="@item.Key.Replace("https","http")">@item.Value</a>
+    <br />
+    <br />
+}

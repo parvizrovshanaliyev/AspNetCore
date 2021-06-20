@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -46,14 +45,21 @@ namespace SignalRAuth.Hubs
             }
             await Clients.Caller.Login(user != null ? token : null);
         }
-    }
 
-    [Authorize]
-    public class MessageHub : Hub<IMessageHub>
-    {
-        public async Task SendMessage(string message)
+        public async Task RefreshTokenLogin(string refreshToken)
         {
-            await Clients.Others.ReceiveMessage(message);
+            User user = await _context.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
+            Token token = null;
+            if (user != null && user?.RefreshTokenEndDate > DateTime.Now)
+            {
+                TokenHandler tokenHandler = new TokenHandler(_configuration);
+                token = tokenHandler.CreateAccessToken(1);
+
+                user.RefreshToken = token.RefreshToken;
+                user.RefreshTokenEndDate = token.Expiration.AddMinutes(1);
+                await _context.SaveChangesAsync();
+            }
+            await Clients.Caller.Login(user != null ? token : null);
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿@model MinIOExample1.ViewModels.FileUploadViewModel
+<div class="panel">
+    <form enctype="multipart/form-data" method="post" class="form">
+        <dl>
+            <dt>
+                <label asp-for="File"></label>
+            </dt>
+            <dd>
+                <input asp-for="File" type="file">
+            </dd>
+        </dl>
+        <input asp-page-handler="Upload" class="btn btn-success" type="submit" value="Dosyayı Sisteme Yükle">
+    </form>
+</div>
+<br />
+<br />
+<a class="btn btn-primary" href="/allImages">Yüklü Resimleri gör</a>
+<br />
+<br />
+<a class="btn btn-secondary" href="/allpdf">Yüklü Pdfleri gör</a>

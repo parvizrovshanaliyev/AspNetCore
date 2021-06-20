@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,11 @@ namespace SignalRAuth.Handlers
                 audience: _configuration["JWT:Audience"],
                 expires: tokenInstance.Expiration,
                 notBefore: DateTime.Now,
-                signingCredentials: signingCredentials
+                signingCredentials: signingCredentials,
+                claims: new List<Claim>
+                {
+                    new Claim(ClaimTypes.Role, "Admin")
+                }
             );
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             tokenInstance.AccessToken = tokenHandler.WriteToken(securityToken);
