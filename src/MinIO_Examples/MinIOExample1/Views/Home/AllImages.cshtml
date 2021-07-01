@@ -1,0 +1,9 @@
+﻿@model List<string>
+<h3>Yüklü Resimler</h3>
+<br />
+@foreach (var item in Model)
+{
+    <img src="@item" alt="Alternate Text" />
+    <br />
+    <br />
+}
