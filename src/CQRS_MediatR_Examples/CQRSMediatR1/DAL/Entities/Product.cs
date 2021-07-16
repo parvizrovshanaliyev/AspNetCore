@@ -19,5 +19,6 @@ namespace CQRSMediatR1.DAL.Entities
         public short? UnitsOnOrder { get; set; }
         public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

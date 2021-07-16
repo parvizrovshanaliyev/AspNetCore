@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DAL\CQRS\Handlers\QueryHandlers\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

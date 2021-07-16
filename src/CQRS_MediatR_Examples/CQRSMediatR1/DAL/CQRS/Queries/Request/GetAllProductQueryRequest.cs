@@ -8,9 +8,4 @@ namespace CQRSMediatR1.CQRS.Queries.Request
     public class GetAllProductQueryRequest
     {
     }
-
-    public class GetByIdProductQueryRequest
-    {
-        public Guid Id { get; set; }
-    }
 }

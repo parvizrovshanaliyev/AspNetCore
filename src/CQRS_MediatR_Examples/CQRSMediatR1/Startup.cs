@@ -1,4 +1,6 @@
+using CQRSMediatR1.CQRS.Handlers.CommandHandlers;
 using CQRSMediatR1.DAL;
+using CQRSMediatR1.DAL.CQRS.Handlers.QueryHandlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +23,15 @@ namespace CQRSMediatR1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
+
+            services.AddTransient<CreateProductCommandHandler>();
+            services.AddTransient<DeleteProductCommandHandler>();
+            services.AddTransient<GetAllProductQueryHandler>();
+            services.AddTransient<GetByIdProductQueryHandler>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

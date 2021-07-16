@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CQRSMediatR1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210716114101_InitialDb")]
+    [Migration("20210716120452_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
