@@ -1,6 +1,9 @@
-﻿namespace CQRSWithMediatRExample.DAL.CQRS.Commands.Request
+﻿using CQRSWithMediatRExample.DAL.CQRS.Commands.Response;
+using MediatR;
+
+namespace CQRSWithMediatRExample.DAL.CQRS.Commands.Request
 {
-    public class CreateProductCommandRequest
+    public class CreateProductCommandRequest : IRequest<CreateProductCommandResponse>
     {
         public string ProductName { get; set; }
         public short UnitsInStock { get; set; }

@@ -5,6 +5,7 @@ using CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers;
 using CQRSWithMediatRExample.DAL.CQRS.Handlers.QueryHandlers;
 using CQRSWithMediatRExample.DAL.CQRS.Queries.Request;
 using CQRSWithMediatRExample.DAL.CQRS.Queries.Response;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQRSWithMediatRExample.Controllers
@@ -13,47 +14,41 @@ namespace CQRSWithMediatRExample.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly CreateProductCommandHandler _createProductCommandHandler;
-        private readonly DeleteProductCommandHandler _deleteProductCommandHandler;
-        private readonly GetAllProductQueryHandler _getAllProductQueryHandler;
-        private readonly GetByIdProductQueryHandler _getByIdProductQueryHandler;
-        public ProductController(
-            CreateProductCommandHandler createProductCommandHandler,
-            DeleteProductCommandHandler deleteProductCommandHandler,
-            GetAllProductQueryHandler getAllProductQueryHandler,
-            GetByIdProductQueryHandler getByIdProductQueryHandler)
+        private readonly IMediator _mediator;
+        public ProductController(IMediator mediator)
         {
-            _createProductCommandHandler = createProductCommandHandler;
-            _deleteProductCommandHandler = deleteProductCommandHandler;
-            _getAllProductQueryHandler = getAllProductQueryHandler;
-            _getByIdProductQueryHandler = getByIdProductQueryHandler;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] GetAllProductQueryRequest requestModel)
+        public IActionResult Get([FromQuery] GetAllProductQueryRequest request)
         {
-            List<GetAllProductQueryResponse> allProducts = _getAllProductQueryHandler.GetAllProduct(requestModel);
-            return Ok(allProducts);
+            var response  = _mediator.Send(request);
+
+            return Ok(response);
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult Get(int id)
+        public IActionResult Get([FromRoute]GetByIdProductQueryRequest request)
         {
-            GetByIdProductQueryResponse product = _getByIdProductQueryHandler.GetByIdProduct(id);
-            return Ok(product);
+            var response = _mediator.Send(request);
+
+            return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateProductCommandRequest requestModel)
+        public IActionResult Post([FromBody] CreateProductCommandRequest request)
         {
-            CreateProductCommandResponse response = _createProductCommandHandler.CreateProduct(requestModel);
+            var response = _mediator.Send(request);
+
             return Ok(response);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromQuery] DeleteProductCommandRequest requestModel)
+        public IActionResult Delete([FromRoute] DeleteProductCommandRequest request)
         {
-            DeleteProductCommandResponse response = _deleteProductCommandHandler.DeleteProduct(requestModel);
+            var response = _mediator.Send(request);
+
             return Ok(response);
         }
     }

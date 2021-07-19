@@ -1,10 +1,14 @@
 ﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using CQRSWithMediatRExample.DAL.CQRS.Commands.Request;
 using CQRSWithMediatRExample.DAL.CQRS.Commands.Response;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers
 {
-    public class DeleteProductCommandHandler
+    public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommandRequest, DeleteProductCommandResponse>
     {
         private readonly AppDbContext _dbContext;
 
@@ -22,5 +26,20 @@ namespace CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers
                 IsSuccess = true
             };
         }
+
+        #region Implementation of IRequestHandler<in DeleteProductCommandRequest,DeleteProductCommandResponse>
+
+        public async Task<DeleteProductCommandResponse> Handle(DeleteProductCommandRequest request, CancellationToken cancellationToken)
+        {
+            var deleteProduct = await _dbContext.Products.SingleOrDefaultAsync(p => p.ProductID == request.Id, cancellationToken: cancellationToken);
+            _dbContext.Products.Remove(deleteProduct);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return new DeleteProductCommandResponse
+            {
+                IsSuccess = true
+            };
+        }
+
+        #endregion
     }
 }

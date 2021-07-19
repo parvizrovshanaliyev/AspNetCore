@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using CQRSWithMediatRExample.DAL.CQRS.Commands.Request;
 using CQRSWithMediatRExample.DAL.CQRS.Commands.Response;
 using CQRSWithMediatRExample.DAL.Entities;
+using MediatR;
 
 namespace CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers
 {
-    public class CreateProductCommandHandler
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, CreateProductCommandResponse>
     {
         private readonly AppDbContext _dbContext;
 
@@ -31,5 +34,28 @@ namespace CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers
                 ProductId = product.ProductID
             };
         }
+
+        #region Implementation of IRequestHandler<in CreateProductCommandRequest,CreateProductCommandResponse>
+
+        public async Task<CreateProductCommandResponse> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
+        {
+            var product = new Product()
+            {
+                ProductName = request.ProductName,
+                UnitPrice = request.UnitPrice,
+                UnitsInStock = request.UnitsInStock,
+                CreatedDate = DateTime.Now
+            };
+
+            await _dbContext.Products.AddAsync(product, cancellationToken);
+            await  _dbContext.SaveChangesAsync(cancellationToken);
+            return new CreateProductCommandResponse
+            {
+                IsSuccess = true,
+                ProductId = product.ProductID
+            };
+        }
+
+        #endregion
     }
 }

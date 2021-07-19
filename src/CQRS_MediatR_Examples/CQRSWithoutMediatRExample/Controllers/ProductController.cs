@@ -36,10 +36,10 @@ namespace CQRSWithoutMediatRExample.Controllers
             return Ok(allProducts);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get([FromRoute] GetByIdProductQueryRequest request)
         {
-            GetByIdProductQueryResponse product = _getByIdProductQueryHandler.GetByIdProduct(id);
+            GetByIdProductQueryResponse product = _getByIdProductQueryHandler.GetByIdProduct(request);
             return Ok(product);
         }
 
@@ -51,7 +51,7 @@ namespace CQRSWithoutMediatRExample.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromQuery] DeleteProductCommandRequest requestModel)
+        public IActionResult Delete([FromRoute] DeleteProductCommandRequest requestModel)
         {
             DeleteProductCommandResponse response = _deleteProductCommandHandler.DeleteProduct(requestModel);
             return Ok(response);

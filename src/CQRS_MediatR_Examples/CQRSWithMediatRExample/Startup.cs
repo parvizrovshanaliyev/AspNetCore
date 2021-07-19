@@ -1,6 +1,8 @@
+using System.Reflection;
 using CQRSWithMediatRExample.DAL;
 using CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers;
 using CQRSWithMediatRExample.DAL.CQRS.Handlers.QueryHandlers;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,16 +30,23 @@ namespace CQRSWithMediatRExample
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
-            services.AddTransient<CreateProductCommandHandler>();
-            services.AddTransient<DeleteProductCommandHandler>();
-            services.AddTransient<GetAllProductQueryHandler>();
-            services.AddTransient<GetByIdProductQueryHandler>();
+            //services.AddTransient<CreateProductCommandHandler>();
+            //services.AddTransient<DeleteProductCommandHandler>();
+            //services.AddTransient<GetAllProductQueryHandler>();
+            //services.AddTransient<GetByIdProductQueryHandler>();
 
-            services.AddControllers();
+            
+
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CQRSMediatR1", Version = "v1" });
             });
+
+            services.AddMediatR(Assembly.GetExecutingAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

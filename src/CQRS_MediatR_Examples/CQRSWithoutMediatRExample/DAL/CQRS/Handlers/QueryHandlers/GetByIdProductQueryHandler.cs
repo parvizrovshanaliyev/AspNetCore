@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using CQRSWithoutMediatRExample.DAL.CQRS.Queries.Request;
 using CQRSWithoutMediatRExample.DAL.CQRS.Queries.Response;
 
 namespace CQRSWithoutMediatRExample.DAL.CQRS.Handlers.QueryHandlers
@@ -11,9 +12,9 @@ namespace CQRSWithoutMediatRExample.DAL.CQRS.Handlers.QueryHandlers
         {
             _dbContext = dbContext;
         }
-        public GetByIdProductQueryResponse GetByIdProduct(int id)
+        public GetByIdProductQueryResponse GetByIdProduct(GetByIdProductQueryRequest request)
         {
-            var product = _dbContext.Products.SingleOrDefault(p => p.ProductID == id);
+            var product = _dbContext.Products.SingleOrDefault(p => p.ProductID == request.Id);
 
             if (product != null)
                 return new GetByIdProductQueryResponse
