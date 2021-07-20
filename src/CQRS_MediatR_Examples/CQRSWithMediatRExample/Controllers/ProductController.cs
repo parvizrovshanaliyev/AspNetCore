@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using CQRSWithMediatRExample.DAL.CQRS.Commands.Request;
-using CQRSWithMediatRExample.DAL.CQRS.Commands.Response;
-using CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers;
-using CQRSWithMediatRExample.DAL.CQRS.Handlers.QueryHandlers;
+﻿using CQRSWithMediatRExample.DAL.CQRS.Commands.Request;
 using CQRSWithMediatRExample.DAL.CQRS.Queries.Request;
-using CQRSWithMediatRExample.DAL.CQRS.Queries.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

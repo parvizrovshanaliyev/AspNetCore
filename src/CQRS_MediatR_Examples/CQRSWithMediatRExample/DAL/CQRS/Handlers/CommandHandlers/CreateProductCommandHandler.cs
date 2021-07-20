@@ -47,8 +47,8 @@ namespace CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers
                 CreatedDate = DateTime.Now
             };
 
-            await _dbContext.Products.AddAsync(product, cancellationToken);
-            await  _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.Products.AddAsync(product);
+            await  _dbContext.SaveChangesAsync();
             return new CreateProductCommandResponse
             {
                 IsSuccess = true,

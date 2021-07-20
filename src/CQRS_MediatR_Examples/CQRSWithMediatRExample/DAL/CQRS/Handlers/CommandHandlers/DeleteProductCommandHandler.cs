@@ -33,7 +33,7 @@ namespace CQRSWithMediatRExample.DAL.CQRS.Handlers.CommandHandlers
         {
             var deleteProduct = await _dbContext.Products.SingleOrDefaultAsync(p => p.ProductID == request.Id, cancellationToken: cancellationToken);
             _dbContext.Products.Remove(deleteProduct);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync();
             return new DeleteProductCommandResponse
             {
                 IsSuccess = true

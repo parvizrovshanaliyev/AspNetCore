@@ -38,7 +38,7 @@ namespace CQRSWithMediatRExample.DAL.CQRS.Handlers.QueryHandlers
         {
             var product =
                 await _dbContext.Products
-                    .SingleOrDefaultAsync(p => p.ProductID == request.Id, cancellationToken: cancellationToken);
+                    .SingleOrDefaultAsync(p => p.ProductID == request.Id);
 
             if (product != null)
                 return new GetByIdProductQueryResponse

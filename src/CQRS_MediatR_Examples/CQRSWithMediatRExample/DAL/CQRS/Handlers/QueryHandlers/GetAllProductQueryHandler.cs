@@ -40,7 +40,7 @@ namespace CQRSWithMediatRExample.DAL.CQRS.Handlers.QueryHandlers
                 UnitPrice = product.UnitPrice,
                 UnitsInStock = product.UnitsInStock,
                 CreateTime = product.CreatedDate
-            }).ToListAsync(cancellationToken: cancellationToken);
+            }).ToListAsync();
         }
 
         #endregion
