@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductApp.Application.Wrappers
 {
-    public class ServiceResponse<T>
+    public class ServiceResponse<T> : BaseResponse
     {
         public T Value { get; set; }
 
@@ -39,6 +39,12 @@ namespace ProductApp.Application.Wrappers
         }
 
         public PagedResponse(int pageNumber, int pageSize)
+        {
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+
+        public PagedResponse(T value,int pageNumber, int pageSize):base(value)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;

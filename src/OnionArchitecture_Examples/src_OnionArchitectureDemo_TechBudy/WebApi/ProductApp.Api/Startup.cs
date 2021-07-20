@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProductApp.Application;
 using ProductApp.Persistence;
 
 namespace ProductApp.Api
@@ -27,6 +28,7 @@ namespace ProductApp.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPersistenceServices();  
+            services.AddApplicationServices();  
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

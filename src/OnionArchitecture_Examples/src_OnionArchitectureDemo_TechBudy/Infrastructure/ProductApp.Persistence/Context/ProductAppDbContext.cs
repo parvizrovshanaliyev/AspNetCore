@@ -6,6 +6,10 @@ namespace ProductApp.Persistence.Context
 {
     public class ProductAppDbContext: DbContext
     {
+        public ProductAppDbContext(DbContextOptions<ProductAppDbContext> options):base(options)
+        {
+            
+        }
         #region Overrides of DbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

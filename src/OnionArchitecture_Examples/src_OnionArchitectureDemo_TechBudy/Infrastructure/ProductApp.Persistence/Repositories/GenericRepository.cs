@@ -13,25 +13,27 @@ namespace ProductApp.Persistence.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly ProductAppDbContext _dbContext;
+        private readonly DbSet<T> dbSet;
         public GenericRepository(ProductAppDbContext dbContext)
         {
             _dbContext = dbContext;
+            dbSet = _dbContext.Set<T>();
         }
         #region Implementation of IGenericRepository<T>
 
         public async  Task<List<T>> GetAllAsync()
         {
-            return await _dbContext.Set<T>().ToListAsync();
+            return await dbSet.ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
+            return await dbSet.FindAsync(id);
         }
 
         public async Task<T> AddAsync(T entity)
         {
-            await _dbContext.Set<T>().AddAsync(entity);
+            await dbSet.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
         }
