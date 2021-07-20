@@ -99,11 +99,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{ABA3C8D9-9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{83DE5155-05D3-4B9D-B0C2-2DEE72A8E64D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductApp.Domain", "src\OnionArchitecture_Examples\src_OnionArchitectureDemo_TechBudy\Core\ProductApp.Domain\ProductApp.Domain.csproj", "{2F2598F0-F0C6-4453-A2EC-0551DD21282C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductApp.Domain", "src\OnionArchitecture_Examples\src_OnionArchitectureDemo_TechBudy\Core\ProductApp.Domain\ProductApp.Domain.csproj", "{2F2598F0-F0C6-4453-A2EC-0551DD21282C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductApp.Application", "src\OnionArchitecture_Examples\src_OnionArchitectureDemo_TechBudy\Core\ProductApp.Application\ProductApp.Application.csproj", "{C9FAE9D2-5235-420E-AB72-696D3A546C50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductApp.Application", "src\OnionArchitecture_Examples\src_OnionArchitectureDemo_TechBudy\Core\ProductApp.Application\ProductApp.Application.csproj", "{C9FAE9D2-5235-420E-AB72-696D3A546C50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductApp.Persistence", "src\OnionArchitecture_Examples\src_OnionArchitectureDemo_TechBudy\Infrastructure\ProductApp.Persistence\ProductApp.Persistence.csproj", "{03CC7459-D8FC-4EDF-B811-D8FCDC4BFC30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductApp.Persistence", "src\OnionArchitecture_Examples\src_OnionArchitectureDemo_TechBudy\Infrastructure\ProductApp.Persistence\ProductApp.Persistence.csproj", "{03CC7459-D8FC-4EDF-B811-D8FCDC4BFC30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{BB2FD1FD-505F-4962-97E8-0BC2CBE6C206}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductApp.WebApi", "src\OnionArchitecture_Examples\src_OnionArchitectureDemo_TechBudy\WebApi\ProductApp.WebApi\ProductApp.WebApi.csproj", "{D5F1486B-DA78-491A-9294-4AA8342EA3A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductApp.Api", "src\OnionArchitecture_Examples\src_OnionArchitectureDemo_TechBudy\WebApi\ProductApp.Api\ProductApp.Api.csproj", "{865461FC-B85A-4108-8A1C-6C836BD0EB41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -215,6 +221,14 @@ Global
 		{03CC7459-D8FC-4EDF-B811-D8FCDC4BFC30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03CC7459-D8FC-4EDF-B811-D8FCDC4BFC30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03CC7459-D8FC-4EDF-B811-D8FCDC4BFC30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F1486B-DA78-491A-9294-4AA8342EA3A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F1486B-DA78-491A-9294-4AA8342EA3A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F1486B-DA78-491A-9294-4AA8342EA3A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F1486B-DA78-491A-9294-4AA8342EA3A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{865461FC-B85A-4108-8A1C-6C836BD0EB41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{865461FC-B85A-4108-8A1C-6C836BD0EB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{865461FC-B85A-4108-8A1C-6C836BD0EB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{865461FC-B85A-4108-8A1C-6C836BD0EB41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -260,6 +274,9 @@ Global
 		{2F2598F0-F0C6-4453-A2EC-0551DD21282C} = {ABA3C8D9-9910-4072-B50E-B8E140665CC8}
 		{C9FAE9D2-5235-420E-AB72-696D3A546C50} = {ABA3C8D9-9910-4072-B50E-B8E140665CC8}
 		{03CC7459-D8FC-4EDF-B811-D8FCDC4BFC30} = {83DE5155-05D3-4B9D-B0C2-2DEE72A8E64D}
+		{BB2FD1FD-505F-4962-97E8-0BC2CBE6C206} = {507D6C23-8154-41C7-B4BE-7E4EABBD30D6}
+		{D5F1486B-DA78-491A-9294-4AA8342EA3A1} = {97C5B644-F547-4183-BD66-CE18DA83BEFD}
+		{865461FC-B85A-4108-8A1C-6C836BD0EB41} = {BB2FD1FD-505F-4962-97E8-0BC2CBE6C206}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {903A496C-2602-48A0-B9C6-64EF5BAA0A81}

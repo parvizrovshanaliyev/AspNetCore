@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ProductApp.Application.Interfaces.Repositories;
 using ProductApp.Domain.Common;
 using ProductApp.Persistence.Context;
@@ -18,14 +19,14 @@ namespace ProductApp.Persistence.Repositories
         }
         #region Implementation of IGenericRepository<T>
 
-        public Task<List<T>> GetAllAsync()
+        public async  Task<List<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
         public async Task<T> AddAsync(T entity)
